@@ -1,53 +1,38 @@
-#include <bits/stdc++.h>
-using namespace std;
-
 class Solution {
 public:
     vector<int> solveQueries(vector<int>& nums, vector<int>& queries) {
+        int n = nums.size();
         unordered_map<int, vector<int>> mp;
-        vector<int> ans;
 
-        // Build map
-        for (int i = 0; i < nums.size(); i++) {
+        for (int i = 0; i < n; i++) {
             mp[nums[i]].push_back(i);
         }
-        int n = nums.size();
-        // Process queries
-        for (int qi = 0; qi < queries.size(); qi++) {
-            int index = queries[qi];
-            int value = nums[index];
 
-            vector<int> temp = mp[value];
-            if(mp[nums[0]].size()==n && n>1){
-                return vector<int>(queries.size(), 1);
-            }
-            for (int i = 0; i < temp.size(); i++) {
-                if (temp[i] == index) {
+        vector<int> ans;
 
-                    if ((i - 1) >= 0 && (i + 1) < temp.size()) {
-                        int a = abs(temp[i] - temp[i - 1]);
-                        int b = abs(temp[i] - temp[i + 1]);
-                        int mini = min(a, b);
-                        ans.push_back(mini);
-                    } else if (i == 0 && (i + 1) < temp.size()) {
-                        int a = abs(temp[i] - temp[temp.size() - 1]);
-                        int b = abs(temp[i + 1] - temp[i]);
-                        a = abs(a-n);
-                        int mini = min(a, b);
-                        ans.push_back(mini);
-                    } else if ((i - 1) >= 0 && (i + 1) >= temp.size()) {
-                        int a = abs(temp[i] - temp[i - 1]);
-                        int b = abs(temp[i] - temp[0]);
-                        b = abs(b-n);
-                        int mini = min(a, b);
-                        ans.push_back(mini);
-                    } else {
-                        ans.push_back(-1);
-                    }
-                }
+        for (int q : queries) {
+            int val = nums[q];
+            auto &indices = mp[val];
+
+            if (indices.size() == 1) {
+                ans.push_back(-1);
+                continue;
             }
+
+            int pos = lower_bound(indices.begin(), indices.end(), q) - indices.begin();
+
+            int left = indices[(pos - 1 + indices.size()) % indices.size()];
+            int right = indices[(pos + 1) % indices.size()];
+
+            int dist_left = abs(q - left);
+            dist_left = min(dist_left, n - dist_left);
+
+            int dist_right = abs(q - right);
+            dist_right = min(dist_right, n - dist_right);
+
+            ans.push_back(min(dist_left, dist_right));
         }
+
         return ans;
     }
-
 };
