@@ -19,12 +19,10 @@ public:
         for (int i = 0; i < nums.size(); i++) {
             int rev = reverseNumber(nums[i]);
 
-            // Check if current number was stored as a reverse of previous
             if (ind.find(nums[i]) != ind.end()) {
                 mini = min(i - ind[nums[i]], mini);
             }
 
-            // Store reverse of current number → current index
             ind[rev] = i;
         }
 
