@@ -10,10 +10,9 @@ public:
             if (i <= j && nums1[i] <= nums2[j]) {
                 ans = max(ans, j - i);
                 j++;
-            } else if (nums1[i] > nums2[j]) {
-                i++;
             } else {
-                j++;
+                i++;
+                if (i > j) j = i;
             }
         }
 
