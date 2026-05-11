@@ -8,12 +8,12 @@ public:
             if (c == '(')
             {
                 p++;
+                ans = max(p, ans);
             }
             else if (c == ')')
             {
                 p--;
             }
-            ans = max(p, ans);
         }
         return ans;
     }
