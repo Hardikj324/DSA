@@ -1,25 +1,27 @@
 class Solution {
 public:
     int majorityElement(vector<int>& arr) {
-            int count = 0;
     int element;
-
-    for (int i = 0; i < arr.size(); i++)
-    {
-        if (count == 0)
-        {
-            element = arr[i];
-            count++;
+        int count =0;
+        
+        for(int i=0;i<arr.size();i++){
+            if(count==0){
+                count++;
+                element = arr[i];
+            }
+            else if(arr[i]==element){
+                count++;
+            }
+            else{
+                count--;
+            }
         }
-        else if (arr[i] == element)
-        {
-            count++;
+        
+        for(auto x:arr){
+            if (x == element)
+                count++;
         }
-        else
-        {
-            count--;
-        }
-    }
-    return element;
+        
+        return (count > arr.size() / 2) ? element : -1;
     }
 };
