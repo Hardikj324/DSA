@@ -25,12 +25,6 @@ public:
                 check.insert(nums[i]);
                 check.insert(nums[j]);
                 }
-                if(check.find(nums[i])==check.end()){
-                    i++;
-                }
-                else if(check.find(nums[j])==check.end()){
-                    j++;
-                }
                 else{
                     i++;
                     j++;
