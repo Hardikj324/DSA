@@ -32,8 +32,8 @@ public:
     }
 
     ListNode* solve(vector<ListNode*>& lists, int left, int right) {
-        if(left>right) return nullptr;
-        if(left==right) return lists[left];
+        
+        if(left==right) return lists[left];     // exactly one list
         int mid = (left+right)/2;
 
         ListNode* L1 = solve(lists,left,mid);
