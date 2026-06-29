@@ -1,5 +1,6 @@
 class Solution {
 public:
+    //We are creating the subarray with at most at most k zeros. 
     int longestOnes(vector<int>& nums, int k) {
         int n = nums.size();
         int count_k =0;
