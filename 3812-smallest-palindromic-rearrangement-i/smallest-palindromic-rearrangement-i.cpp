@@ -16,9 +16,14 @@ public:
                 freq[i] -= 2;
             }
 
-            if (freq[i] == 1 && mid.empty()) {
-                mid = char('a' + i);
-                freq[i]--;
+            if (freq[i] == 1) {
+                if (mid.empty()) {
+                    mid = char('a' + i);
+                    freq[i]--;
+                } else {
+                    // more than one odd → impossible
+                    return "";  
+                }
             }
         }
 
