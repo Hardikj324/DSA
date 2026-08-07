@@ -1,1 +1,1 @@
-<h2>invert-binary-tree Notes</h2><hr>[ Time taken: 18hrs 11m 12s ]
+<h2>invert-binary-tree Notes</h2><hr>[ Time taken: 5hrs 34m 55s ]
