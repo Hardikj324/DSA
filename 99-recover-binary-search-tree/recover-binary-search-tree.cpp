@@ -11,31 +11,58 @@
  */
 class Solution {
 public:
-    TreeNode* prev=nullptr;
-    TreeNode* first=nullptr;
-    TreeNode* second=nullptr;
 
-    void inorder(TreeNode* node){
-        if(!node) return ;
+    TreeNode* prev = nullptr;
+    TreeNode* first = nullptr;
+    TreeNode* second = nullptr;
 
-        inorder(node->left);
 
-        if(prev && prev->val>node->val){
-           if (!first){
-                first = prev;
-            }
+    void verifyNode(TreeNode* node){
+        if(prev==nullptr || (prev->val<node->val)){
+            prev = node;
+            return;
+        }
+
+        if(first==nullptr){
+            first = prev;
             second = node;
         }
-        prev = node;
-
-        inorder(node->right);
-    }
-    void recoverTree(TreeNode* root) {
-        inorder(root);
-        if (first && second) {
-            int temp = first->val;
-            first->val = second->val;
-            second->val = temp;
+        else{
+            second = node;
         }
+    }
+
+    void morrisInorder(TreeNode* root){
+            if(!root) return ;
+
+            while(root){
+                if(root->left==nullptr){
+                    verifyNode(root);
+                    root = root->right;
+                }
+                else{
+                    TreeNode* leftChild = root->left;
+
+                    while(leftChild->right!=nullptr && leftChild->right!=root){
+                        leftChild = leftChild->right;
+                    }
+
+                    if(leftChild->right==nullptr){
+                    leftChild->right = root;
+                    root=root->left;
+                    }
+                    else{
+                    leftChild->right = nullptr;
+                    verifyNode(root);
+                    root = root->right;
+                    }
+
+                }
+            }
+    }
+    
+    void recoverTree(TreeNode* root) {
+        morrisInorder(root);
+        swap(first->val,second->val);
     }
 };
