@@ -1,26 +1,34 @@
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        vector<vector<string>> ans;
         int n = strs.size();
+        vector<vector<string>> result;
+        
         unordered_map<string,vector<string>> mp;
 
         for(int i=0;i<n;i++){
+            string str = strs[i];
 
-          string curr = strs[i];
-        sort(curr.begin(),curr.end());
-          mp[curr].push_back(strs[i]); 
+            vector<int> vec(26,0);
+            for(int j=0;j<str.size();j++){
+                vec[str[j]-'a']++;
+            }
+
+            string map_str = "";
+            for(int j = 0; j < 26; j++) {
+                char c = 'a' + j;
+
+                for(int k = 0; k < vec[j]; k++) {
+                    map_str.push_back(c);
+                }
+            }
+            mp[map_str].push_back(str);
         }
 
-        for(auto x:mp){
-            vector<string> vec;
-            
-            for(int i=0;i<x.second.size();i++){
-                vec.push_back(x.second[i]);
-            }
-            ans.push_back(vec);
-        }   
+        for(auto m:mp){
+            result.push_back(m.second);
+        }
 
-        return ans;
+        return result;
     }
 };
