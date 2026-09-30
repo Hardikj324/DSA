@@ -11,20 +11,18 @@
  */
 class Solution {
 public:
-    bool solve(TreeNode* p, TreeNode* q){
-        if(!p && !q) return true;
-        if((!p || !q) || (p->val != q->val) ) return false;
-        
-        bool ans1 = false;
-        bool ans2 = false;
+    bool solver(TreeNode* p, TreeNode* q){
+        if(!p && !q){
+            return true;
+        }
 
-        ans1 = solve(p->left,q->left);
-        ans2 = solve(p->right,q->right);
+        if((!p || !q) || p->val!=q->val){
+            return false;
+        }
 
-        return ans1 && ans2;
-
+        return solver(p->left,q->left) && solver(p->right,q->right);
     }
     bool isSameTree(TreeNode* p, TreeNode* q) {
-      return solve(p,q);
+       return solver(p,q); 
     }
 };
