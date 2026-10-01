@@ -1,22 +1,28 @@
 class Solution {
 public:
-    void heleper(int ind,vector<int>& nums,vector<int>& ds,vector<vector<int>> &ans){
-            ans.push_back(ds);
-           
-        for(int i=ind;i<nums.size();i++){
-            if(i>ind && nums[i]==nums[i-1]) continue;
-
-            ds.push_back(nums[i]);
-            heleper(i+1,nums,ds,ans);
-            ds.pop_back();
+    set<vector<int>> st;
+    void solver(vector<int>& nums,vector<int>& temp,vector<vector<int>> &ans,int i){
+        if(i==nums.size()){
+            if(!st.count(temp)){
+                st.insert(temp);
+                ans.push_back(temp);
+            }
+            return ;
         }
-        
+
+        temp.push_back(nums[i]);
+        solver(nums,temp,ans,i+1);
+
+        temp.pop_back();
+        solver(nums,temp,ans,i+1);
     }
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
-        vector<int> ds;
+        sort(nums.begin(),nums.end());
         vector<vector<int>> ans;
-        sort(nums.begin(), nums.end());
-        heleper(0,nums,ds,ans);
+        vector<int> temp;
+        solver(nums,temp,ans,0);
         return ans;
     }
 };
+
+
