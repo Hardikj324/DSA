@@ -1,27 +1,19 @@
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        vector<int> freq1(26,0);
-        for(int i=0;i<ransomNote.size();i++){
-            char c = ransomNote[i];
-            freq1[c-'a']++;
-        }
-
+        unordered_map<char,int> freq;
         for(int i=0;i<magazine.size();i++){
-            char c = magazine[i];
-            if(freq1[c-'a']!=0){
-                freq1[c-'a']--;
-            }
+            freq[magazine[i]]++;
         }
 
         for(int i=0;i<ransomNote.size();i++){
-            char c = ransomNote[i];
-            if(freq1[c-'a']!=0){
+            if(freq.count(ransomNote[i]) && freq[ransomNote[i]]>0){
+                freq[ransomNote[i]]--;
+            }
+            else{
                 return false;
             }
         }
-
         return true;
-
     }
 };
