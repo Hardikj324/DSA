@@ -1,20 +1,25 @@
 class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        deque<pair<int,int>> dq;
         int n = nums.size();
-        vector<int> arr;
-        deque<int> dq;
+
+        vector<int> vec;
         for(int i=0;i<n;i++){
-            while(!dq.empty() && dq.front()<=(i-k)){
+            while(!dq.empty() && dq.front().second<=i-k){
                 dq.pop_front();
             }
-            while(!dq.empty() && nums[dq.back()]<nums[i]){
+
+            while(!dq.empty() && dq.back().first<nums[i]){
                 dq.pop_back();
             }
-            dq.push_back(i);
-            if(i>=k-1) arr.push_back(nums[dq.front()]); //After the first window we have to add the elements of new window with every iteration
+
+            dq.push_back({nums[i],i});
+
+            if(i>=k-1) vec.push_back(dq.front().first);
 
         }
-        return arr;
+
+        return vec;
     }
 };
