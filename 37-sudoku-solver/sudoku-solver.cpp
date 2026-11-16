@@ -1,72 +1,78 @@
 class Solution {
 public:
-    bool isValid(vector<vector<char>> &board, int row, int col, char c)
-    {
-        for (int i = 0; i < 9; i++)
-        {
-            if (i != col)
-            {
-                if (board[row][i] == c)
-                {
-                    return false;
-                }
+    int n = 0;
+    int m = 0;
+
+    bool is_valid(vector<vector<char>>& board,int x,int y){
+        for(int i=0;i<n;i++){
+            if(i==x){
+                continue;
             }
-            if (i != row)
-            {
-                if (board[i][col] == c)
-                {
+            else{
+                if(board[i][y]==board[x][y]){
                     return false;
                 }
             }
         }
-        int boxRowStart = 3 * (row / 3);
-        int boxColStart = 3 * (col / 3);
 
-        for (int i = 0; i < 3; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                int r = boxRowStart + i;
-                int cCol = boxColStart + j;
-                if (r == row && cCol == col)
-                    continue; // skip the current cell
-                if (board[r][cCol] == c)
+        for(int i=0;i<m;i++){
+            if(i==y){
+                continue;
+            }
+            else{
+                if(board[x][i]==board[x][y]){
                     return false;
+                }
             }
         }
 
-        return true;
+        int col = y - y%3;
+        int row = x - x%3;
+
+        for(int i = row; i < row+3; i++){
+            for(int j = col; j < col+3; j++){
+                if(i == x && j == y){
+                    continue;
+                }
+                else{
+                    if(board[i][j] == board[x][y]){
+                        return false;
+                    }
+                }
+            }
+        }
+
+    return true;
     }
 
-    // Recursive function to solve Sudoku using backtracking
-    bool backTrack(vector<vector<char>> &board)
-    {
-        int n = board.size();
-        int m = board[0].size();
+    bool solver(vector<vector<char>>& board){
+        
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]=='.'){
+                    for (char c = '1'; c <= '9'; c++){
+                        board[i][j] = c;
 
-        for (int i = 0; i < n; i++)
-        {
-            for (int j = 0; j < m; j++)
-            {
-                if (board[i][j] == '.')
-                {
-                    for (char c = '1'; c <= '9'; c++)
-                    {
-                        if (isValid(board, i, j, c))
-                        {
-                            board[i][j] = c;
-                            if (backTrack(board))
+                        if(is_valid(board,i,j)){
+                            if(solver(board)){
                                 return true;
+                            }
                             board[i][j] = '.';
+                        }
+                        else{
+                                board[i][j] = '.';
                         }
                     }
                     return false;
                 }
             }
         }
-        return true;
-    }
+
+            return true;
+        }
     void solveSudoku(vector<vector<char>>& board) {
-        backTrack(board);
+        n = board.size();
+        m = board[0].size();
+        solver(board);
     }
 };
